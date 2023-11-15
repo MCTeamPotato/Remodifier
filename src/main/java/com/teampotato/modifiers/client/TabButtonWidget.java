@@ -54,7 +54,7 @@ public class TabButtonWidget extends ButtonWidget {
         int color = this.active ? 16777215 : 10526880;
         drawCenteredText(matrixStack, minecraftClient.textRenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, color | MathHelper.ceil(this.alpha * 255.0F) << 24);
 
-        if (this.isHovered()) this.renderTooltip(matrixStack, i, j);
+        if (this.isHovered()) this.renderToolTip(matrixStack, i, j);
         RenderSystem.enableDepthTest();
         super.renderButton(matrixStack, i, j, f);
     }

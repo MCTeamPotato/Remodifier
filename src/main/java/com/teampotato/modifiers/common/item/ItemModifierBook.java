@@ -10,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -28,8 +27,8 @@ public class ItemModifierBook extends Item {
 
     @Override
     public boolean hasGlint(ItemStack stack) {
-        if (!stack.hasNbt()) return false;
-        NbtCompound tag = stack.getNbt();
+        if (!stack.hasTag()) return false;
+        NbtCompound tag = stack.getTag();
         if (tag == null) return false;
         return tag.contains(ModifierHandler.bookTagName) && !tag.getString(ModifierHandler.bookTagName).equals("modifiers:none");
     }
@@ -42,8 +41,8 @@ public class ItemModifierBook extends Item {
     @Override
     public Text getName(ItemStack stack) {
         Text base = super.getName(stack);
-        if (!stack.hasNbt() || (stack.getNbt() != null && !stack.getNbt().contains(ModifierHandler.bookTagName))) return base;
-        Modifier mod = Modifiers.MODIFIERS.get(new Identifier(stack.getNbt().getString(ModifierHandler.bookTagName)));
+        if (!stack.hasTag() || (stack.getTag() != null && !stack.getTag().contains(ModifierHandler.bookTagName))) return base;
+        Modifier mod = Modifiers.MODIFIERS.get(new Identifier(stack.getTag().getString(ModifierHandler.bookTagName)));
         if (mod == null) return base;
         return new TranslatableText("misc.modifiers.modifier_prefix").append(mod.getFormattedName());
     }
@@ -51,8 +50,8 @@ public class ItemModifierBook extends Item {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World worldIn, List<Text> tooltip, TooltipContext flagIn) {
         String translationKey = this.getTranslationKey();
-        if (stack.getNbt() != null && stack.getNbt().contains(ModifierHandler.bookTagName)) {
-            Modifier mod = Modifiers.MODIFIERS.get(new Identifier(stack.getNbt().getString(ModifierHandler.bookTagName)));
+        if (stack.getTag() != null && stack.getTag().contains(ModifierHandler.bookTagName)) {
+            Modifier mod = Modifiers.MODIFIERS.get(new Identifier(stack.getTag().getString(ModifierHandler.bookTagName)));
             if (mod != null) {
                 tooltip.addAll(mod.getInfoLines());
                 tooltip.add(new TranslatableText(translationKey + ".tooltip.0"));
@@ -75,7 +74,7 @@ public class ItemModifierBook extends Item {
         List<ItemStack> stacks = new ObjectArrayList<>();
         for (Modifier mod : modifiers) {
             ItemStack stack = new ItemStack(this);
-            stack.getOrCreateNbt().putString(ModifierHandler.bookTagName, mod.name.toString());
+            stack.getOrCreateTag().putString(ModifierHandler.bookTagName, mod.name.toString());
             stacks.add(stack);
         }
         return stacks;

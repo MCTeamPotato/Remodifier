@@ -97,7 +97,7 @@ public class JsonConfigInitialier {
         for (File file : files) {
             try {
                 FileReader fileReader = new FileReader(file);
-                JsonObject configObject = JsonParser.parseReader(fileReader).getAsJsonObject();
+                JsonObject configObject = new JsonParser().parse(fileReader).getAsJsonObject();
                 names.add(configObject.get(element).getAsString());
             } catch (Throwable throwable) {
                 ModifiersMod.LOGGER.error("Error occurs during " + file.getName() + " reading", throwable);

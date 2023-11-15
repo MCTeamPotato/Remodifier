@@ -32,13 +32,12 @@ public abstract class MixinForgingScreen<T extends ForgingScreenHandler> extends
         super(handler, inventory, title);
     }
 
-    @SuppressWarnings("ConstantValue")
+    @SuppressWarnings({"ConstantValue", "deprecation"})
     @Inject(method = "drawBackground", at = @At("HEAD"), cancellable = true)
     private void onDrawBackground(MatrixStack matrixStack, float f, int i, int j, CallbackInfo ci) {
         if (((Object) this) instanceof SmithingScreen && ((SmithingScreenReforge) this).modifiers_isOnTab2()) {
             ci.cancel();
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShaderTexture(0, modifiers$reforger);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.client.getTextureManager().bindTexture(modifiers$reforger);
             int k = (this.width - this.backgroundWidth) / 2;
             int l = (this.height - this.backgroundHeight) / 2;

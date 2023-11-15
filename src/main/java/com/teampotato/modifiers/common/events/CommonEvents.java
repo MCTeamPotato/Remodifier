@@ -18,8 +18,8 @@ public class CommonEvents {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAnvilUpdate(AnvilUpdateEvent event) {
         ItemStack right = event.getRight();
-        if (right.getItem() instanceof ItemModifierBook && ModifierHandler.canHaveModifiers(event.getLeft()) && right.getNbt() != null) {
-            Modifier modifier = Modifiers.MODIFIERS.get(new Identifier(right.getNbt().getString(ModifierHandler.bookTagName)));
+        if (right.getItem() instanceof ItemModifierBook && ModifierHandler.canHaveModifiers(event.getLeft()) && right.getTag() != null) {
+            Modifier modifier = Modifiers.MODIFIERS.get(new Identifier(right.getTag().getString(ModifierHandler.bookTagName)));
             if (modifier != null) {
                 ItemStack output = event.getLeft().copy();
                 ModifierHandler.setModifier(output, modifier);

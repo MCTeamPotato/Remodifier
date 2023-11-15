@@ -127,7 +127,14 @@ public class Modifier {
         }
     }
 
-    public record AttributeModifierSupplier(double amount, EntityAttributeModifier.Operation operation) {
+    public static class AttributeModifierSupplier {
+        private final double amount;
+        private final EntityAttributeModifier.Operation operation;
+
+        public AttributeModifierSupplier(double amount, EntityAttributeModifier.Operation operation) {
+            this.amount = amount;
+            this.operation = operation;
+        }
 
         @Contract(value = "_, _ -> new", pure = true)
         public @NotNull EntityAttributeModifier getAttributeModifier(UUID id, String name) {

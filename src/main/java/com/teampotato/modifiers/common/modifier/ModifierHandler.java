@@ -36,19 +36,19 @@ public class ModifierHandler {
     }
 
     public static void setModifier(ItemStack stack, Modifier modifier) {
-        NbtCompound tag = stack.getOrCreateNbt();
+        NbtCompound tag = stack.getOrCreateTag();
         tag.remove(tagName);
         tag.putString(tagName, modifier.name.toString());
     }
 
     public static boolean hasModifier(ItemStack stack) {
-        NbtCompound tag = stack.getNbt();
+        NbtCompound tag = stack.getTag();
         return tag != null && tag.contains(tagName);
     }
 
     @Nullable
     public static Modifier getModifier(ItemStack stack) {
-        NbtCompound tag = stack.getNbt();
+        NbtCompound tag = stack.getTag();
         if (tag == null) return null;
         if (!tag.contains(tagName)) return null;
         return Modifiers.MODIFIERS.get(new Identifier(tag.getString(tagName)));

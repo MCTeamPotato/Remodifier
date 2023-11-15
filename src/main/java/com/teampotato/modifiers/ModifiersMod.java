@@ -15,6 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -22,7 +23,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -54,11 +54,11 @@ public class ModifiersMod {
         ctx.registerConfig(common, CuriosConfig.CONFIG, "remodifier/curios-modifiers.toml");
     }
 
+    static ItemStack icon;
     static {
         NetworkHandler.setProxy(new NetworkHandlerForge());
 
         GROUP_BOOKS = new ItemGroup(-1, MOD_ID +"_books") {
-            static ItemStack icon;
             @Override
             public ItemStack createIcon() {
                 if (icon == null) icon = MODIFIER_BOOK.get().getDefaultStack();
