@@ -25,6 +25,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 @Mod(ModifiersMod.MOD_ID)
 public class ModifiersMod {
@@ -73,7 +74,7 @@ public class ModifiersMod {
         return isCuriosLoaded;
     }
 
-    private void setup(final FMLCommonSetupEvent event) {
+    private void setup(final @NotNull FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             if (isCuriosLoaded()) {
                 try {

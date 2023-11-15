@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,8 +22,8 @@ public abstract class MixinItemStack {
     private void onGetDisplayName(CallbackInfoReturnable<Text> cir) {
         Modifier modifier = ModifierHandler.getModifier((ItemStack) (Object)this);
         if (modifier != null && modifier != Modifiers.NONE) {
-            MutableText modifierText = MutableText.of(modifier.getFormattedName());
-            MutableText itemText = Text.translatable(this.getItem().getTranslationKey((ItemStack) (Object)this));
+            MutableText modifierText = modifier.getFormattedName();
+            MutableText itemText = new TranslatableText(this.getItem().getTranslationKey((ItemStack) (Object)this));
             MutableText newItemName = modifierText.append(" ").append(itemText);
             cir.setReturnValue(newItemName);
         }

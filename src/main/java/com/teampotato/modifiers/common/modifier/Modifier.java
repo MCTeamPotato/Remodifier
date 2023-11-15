@@ -5,8 +5,7 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -38,8 +37,8 @@ public class Modifier {
         this.modifiers = modifiers;
     }
 
-    public TranslatableTextContent getFormattedName() {
-        return new TranslatableTextContent("modifier." + name.getNamespace() + "." + name.getPath());
+    public TranslatableText getFormattedName() {
+        return new TranslatableText("modifier." + name.getNamespace() + "." + name.getPath());
     }
 
     @Nullable
@@ -59,12 +58,12 @@ public class Modifier {
         }
 
         if (d0 > 0.0D) {
-            return Text.translatable("attribute.modifier.plus." + modifier.operation.getId(), MODIFIER_FORMAT.format(d1),
-                    Text.translatable(entry.getKey().getTranslationKey())).formatted(Formatting.BLUE);
+            return new TranslatableText("attribute.modifier.plus." + modifier.operation.getId(), MODIFIER_FORMAT.format(d1),
+                    new TranslatableText(entry.getKey().getTranslationKey())).formatted(Formatting.BLUE);
         } else if (d0 < 0.0D) {
             d1 = d1 * -1.0D;
-            return Text.translatable("attribute.modifier.take." + modifier.operation.getId(), MODIFIER_FORMAT.format(d1),
-                    Text.translatable(entry.getKey().getTranslationKey())).formatted(Formatting.RED);
+            return new TranslatableText("attribute.modifier.take." + modifier.operation.getId(), MODIFIER_FORMAT.format(d1),
+                    new TranslatableText(entry.getKey().getTranslationKey())).formatted(Formatting.RED);
         }
         return null;
     }
@@ -76,9 +75,9 @@ public class Modifier {
         if (size == 1) {
             MutableText description = getModifierDescription(modifiers.get(0));
             if (description == null) return lines;
-            lines.add(MutableText.of(getFormattedName()).append(": ").formatted(Formatting.GRAY).append(description));
+            lines.add(getFormattedName().append(": ").formatted(Formatting.GRAY).append(description));
         } else {
-            lines.add(MutableText.of(getFormattedName()).append(":").formatted(Formatting.GRAY));
+            lines.add(getFormattedName().append(":").formatted(Formatting.GRAY));
             for (Pair<EntityAttribute, AttributeModifierSupplier> entry : modifiers) {
                 MutableText description = getModifierDescription(entry);
                 if (description != null) lines.add(description);

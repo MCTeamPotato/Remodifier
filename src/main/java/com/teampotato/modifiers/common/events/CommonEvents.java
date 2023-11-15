@@ -37,14 +37,14 @@ public class CommonEvents {
         ItemStack from = event.getFrom();
         ItemStack to = event.getTo();
         Modifier fromMod = ModifierHandler.getModifier(from);
-        if (fromMod != null) ModifierHandler.removeEquipmentModifier(event.getEntity(), fromMod, slotType);
+        if (fromMod != null) ModifierHandler.removeEquipmentModifier(event.getEntityLiving(), fromMod, slotType);
         Modifier toMod = ModifierHandler.getModifier(to);
         if (toMod == null) {
             toMod = ModifierHandler.rollModifier(to, ThreadLocalRandom.current());
             if (toMod == null) return;
             ModifierHandler.setModifier(to, toMod);
         }
-        ModifierHandler.applyEquipmentModifier(event.getEntity(), toMod, slotType);
+        ModifierHandler.applyEquipmentModifier(event.getEntityLiving(), toMod, slotType);
     }
 
 }

@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.collection.DefaultedList;
@@ -44,7 +45,7 @@ public class ItemModifierBook extends Item {
         if (!stack.hasNbt() || (stack.getNbt() != null && !stack.getNbt().contains(ModifierHandler.bookTagName))) return base;
         Modifier mod = Modifiers.MODIFIERS.get(new Identifier(stack.getNbt().getString(ModifierHandler.bookTagName)));
         if (mod == null) return base;
-        return Text.translatable("misc.modifiers.modifier_prefix").append(MutableText.of(mod.getFormattedName()));
+        return new TranslatableText("misc.modifiers.modifier_prefix").append(mod.getFormattedName());
     }
 
     @Override
@@ -54,12 +55,12 @@ public class ItemModifierBook extends Item {
             Modifier mod = Modifiers.MODIFIERS.get(new Identifier(stack.getNbt().getString(ModifierHandler.bookTagName)));
             if (mod != null) {
                 tooltip.addAll(mod.getInfoLines());
-                tooltip.add(Text.translatable(translationKey + ".tooltip.0"));
-                tooltip.add(Text.translatable(translationKey + ".tooltip.1"));
+                tooltip.add(new TranslatableText(translationKey + ".tooltip.0"));
+                tooltip.add(new TranslatableText(translationKey + ".tooltip.1"));
                 return;
             }
         }
-        tooltip.add(Text.translatable(translationKey + ".tooltip.invalid"));
+        tooltip.add(new TranslatableText(translationKey + ".tooltip.invalid"));
     }
 
     protected List<ItemStack> getStacks() {

@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CurioCompat implements ICurioProxy {
     @SubscribeEvent
     public void onCurioChange(CurioChangeEvent event) {
-        LivingEntity entity = event.getEntity();
+        LivingEntity entity = event.getEntityLiving();
         ItemStack to = event.getTo();
         String identifier = event.getIdentifier();
         int slot = event.getSlotIndex();
