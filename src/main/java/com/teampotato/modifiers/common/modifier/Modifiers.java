@@ -227,11 +227,15 @@ public class Modifiers {
     }
 
     public static void initialize() {
-        initToolModifiers();
-        initArmorsModifiers();
-        initBowModifiers();
-        initShieldModifiers();
-        if (ModifiersMod.isCuriosLoaded() && !CuriosConfig.WHETHER_OR_NOT_CURIOS_USE_ARMOR_MODIFIERS.get()) initCuriosModifiers();
+        try {
+            initToolModifiers();
+            initArmorsModifiers();
+            initBowModifiers();
+            initShieldModifiers();
+            if (ModifiersMod.isCuriosLoaded() && !CuriosConfig.WHETHER_OR_NOT_CURIOS_USE_ARMOR_MODIFIERS.get()) initCuriosModifiers();
+        } catch (Exception e) {
+            ModifiersMod.LOGGER.error("Exception occurs during modifiers initialization", e);
+        }
     }
 
     static class MergedStringIterator implements Iterator<String> {
