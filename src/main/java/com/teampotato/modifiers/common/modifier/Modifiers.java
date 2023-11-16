@@ -30,7 +30,7 @@ public class Modifiers {
 
     public static final ModifierPool curioPool = new ModifierPool(stack -> ModifiersMod.CURIO_PROXY.isModifiableCurio(stack));
 
-    public static final ModifierPool armorPool = new ModifierPool(stack -> stack.getItem() instanceof ArmorItem || ModifiersMod.CURIO_PROXY.isModifiableCurio(stack));
+    public static final ModifierPool armorPool = new ModifierPool(stack -> stack.getItem() instanceof ArmorItem || CuriosConfig.WHETHER_OR_NOT_CURIOS_USE_ARMOR_MODIFIERS.get() && ModifiersMod.CURIO_PROXY.isModifiableCurio(stack));
 
     public static final ModifierPool toolPool = new ModifierPool(stack -> {
         Item item = stack.getItem();
@@ -43,12 +43,12 @@ public class Modifiers {
     public static final ModifierPool shieldPool = new ModifierPool(stack -> stack.getItem() instanceof ShieldItem);
 
     @Contract("_ -> new")
-    private static Modifier.@NotNull ModifierBuilder armor(String name) {
+    private static Modifier.@NotNull ModifierBuilder equipped(String name) {
         return new Modifier.ModifierBuilder(new Identifier(ModifiersMod.MOD_ID, name), "modifier_" + name, ModifierType.EQUIPPED);
     }
 
     @Contract("_ -> new")
-    private static Modifier.@NotNull ModifierBuilder tool(String name) {
+    private static Modifier.@NotNull ModifierBuilder held(String name) {
         return new Modifier.ModifierBuilder(new Identifier(ModifiersMod.MOD_ID, name), "modifier_" + name, ModifierType.HELD);
     }
 
@@ -112,14 +112,14 @@ public class Modifiers {
                 String[] attributes = attribute.split(";");
                 String[] amounts = amount.split(";");
                 String[] operations_ids = operations_id.split(";");
-                addBow(tool(name).addModifiers(attributes, mods(amounts, operations_ids)).setWeight(Integer.parseInt(weight)).build());
+                addBow(held(name).addModifiers(attributes, mods(amounts, operations_ids)).setWeight(Integer.parseInt(weight)).build());
             } else {
                 EntityAttribute entityAttribute = ForgeRegistries.ATTRIBUTES.getValue(new Identifier(attribute));
                 if (entityAttribute == null) {
                     ModifiersMod.LOGGER.fatal("Invalid value: " + attribute);
                     return;
                 }
-                addBow(tool(name).setWeight(Integer.parseInt(weight)).addModifier(entityAttribute, mod(Double.parseDouble(amount), Operation.fromId(Integer.parseInt(operations_id)))).build());
+                addBow(held(name).setWeight(Integer.parseInt(weight)).addModifier(entityAttribute, mod(Double.parseDouble(amount), Operation.fromId(Integer.parseInt(operations_id)))).build());
             }
         }
     }
@@ -140,14 +140,14 @@ public class Modifiers {
                 String[] attributes = attribute.split(";");
                 String[] amounts = amount.split(";");
                 String[] operations_ids = operations_id.split(";");
-                addShield(tool(name).addModifiers(attributes, mods(amounts, operations_ids)).setWeight(Integer.parseInt(weight)).build());
+                addShield(held(name).addModifiers(attributes, mods(amounts, operations_ids)).setWeight(Integer.parseInt(weight)).build());
             } else {
                 EntityAttribute entityAttribute = ForgeRegistries.ATTRIBUTES.getValue(new Identifier(attribute));
                 if (entityAttribute == null) {
                     ModifiersMod.LOGGER.fatal("Invalid value: " + attribute);
                     return;
                 }
-                addShield(tool(name).setWeight(Integer.parseInt(weight)).addModifier(entityAttribute, mod(Double.parseDouble(amount), Operation.fromId(Integer.parseInt(operations_id)))).build());
+                addShield(held(name).setWeight(Integer.parseInt(weight)).addModifier(entityAttribute, mod(Double.parseDouble(amount), Operation.fromId(Integer.parseInt(operations_id)))).build());
             }
         }
     }
@@ -168,14 +168,14 @@ public class Modifiers {
                 String[] attributes = attribute.split(";");
                 String[] amounts = amount.split(";");
                 String[] operations_ids = operations_id.split(";");
-                addTool(tool(name).addModifiers(attributes, mods(amounts, operations_ids)).setWeight(Integer.parseInt(weight)).build());
+                addTool(held(name).addModifiers(attributes, mods(amounts, operations_ids)).setWeight(Integer.parseInt(weight)).build());
             } else {
                 EntityAttribute entityAttribute = ForgeRegistries.ATTRIBUTES.getValue(new Identifier(attribute));
                 if (entityAttribute == null) {
                     ModifiersMod.LOGGER.fatal("Invalid value: " + attribute);
                     return;
                 }
-                addTool(tool(name).setWeight(Integer.parseInt(weight)).addModifier(entityAttribute, mod(Double.parseDouble(amount), Operation.fromId(Integer.parseInt(operations_id)))).build());
+                addTool(held(name).setWeight(Integer.parseInt(weight)).addModifier(entityAttribute, mod(Double.parseDouble(amount), Operation.fromId(Integer.parseInt(operations_id)))).build());
             }
         }
     }
@@ -196,9 +196,9 @@ public class Modifiers {
                 String[] attributes = attribute.split(";");
                 String[] amounts = amount.split(";");
                 String[] operations_ids = operations_id.split(";");
-                addCurio(armor(name).setWeight(Integer.parseInt(weight)).addModifiers(attributes, mods(amounts, operations_ids)).build());
+                addArmor(equipped(name).setWeight(Integer.parseInt(weight)).addModifiers(attributes, mods(amounts, operations_ids)).build());
             } else {
-                addCurio(armor(name).setWeight(Integer.parseInt(weight)).addModifier(ForgeRegistries.ATTRIBUTES.getValue(new Identifier(attribute.split(":")[0], attribute.split(":")[1])), mod(Double.parseDouble(amount), Operation.fromId(Integer.parseInt(operations_id)))).build());
+                addArmor(equipped(name).setWeight(Integer.parseInt(weight)).addModifier(ForgeRegistries.ATTRIBUTES.getValue(new Identifier(attribute.split(":")[0], attribute.split(":")[1])), mod(Double.parseDouble(amount), Operation.fromId(Integer.parseInt(operations_id)))).build());
             }
         }
     }
@@ -219,9 +219,9 @@ public class Modifiers {
                 String[] attributes = attribute.split(";");
                 String[] amounts = amount.split(";");
                 String[] operations_ids = operations_id.split(";");
-                addArmor(armor(name).setWeight(Integer.parseInt(weight)).addModifiers(attributes, mods(amounts, operations_ids)).build());
+                addCurio(equipped(name).setWeight(Integer.parseInt(weight)).addModifiers(attributes, mods(amounts, operations_ids)).build());
             } else {
-                addArmor(armor(name).setWeight(Integer.parseInt(weight)).addModifier(ForgeRegistries.ATTRIBUTES.getValue(new Identifier(attribute.split(":")[0], attribute.split(":")[1])), mod(Double.parseDouble(amount), Operation.fromId(Integer.parseInt(operations_id)))).build());
+                addCurio(equipped(name).setWeight(Integer.parseInt(weight)).addModifier(ForgeRegistries.ATTRIBUTES.getValue(new Identifier(attribute.split(":")[0], attribute.split(":")[1])), mod(Double.parseDouble(amount), Operation.fromId(Integer.parseInt(operations_id)))).build());
             }
         }
     }
