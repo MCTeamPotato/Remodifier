@@ -85,8 +85,7 @@ public class Modifiers {
     private static Modifier.AttributeModifierSupplier @NotNull [] mods(String @NotNull [] amounts, String[] ops) {
         Modifier.AttributeModifierSupplier[] suppliers = new Modifier.AttributeModifierSupplier[amounts.length];
         for (int index = 0; index < amounts.length; index++) {
-            String amount = amounts[index];
-            suppliers[index] = new Modifier.AttributeModifierSupplier(Double.parseDouble(amount), Operation.fromId(Integer.parseInt(ops[index])));
+            suppliers[index] = new Modifier.AttributeModifierSupplier(Double.parseDouble(amounts[index]), Operation.fromId(Integer.parseInt(ops[index])));
         }
         return suppliers;
     }
